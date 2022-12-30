@@ -1,16 +1,38 @@
 <script setup>
-import {ref} from "vue";
+import { ref } from "vue";
 const showModal = ref(false);
+const newNote = ref("")
+const notes = ref([]);
+const erroMessage =ref("")
+
+function getRandomColor() {
+  return "hsl(" + Math.random() * 360 + ", 100%, 75%)";
+}
+const addNote = () => {
+  if (newNote.value.length < 10) {
+    return erroMessage.value = "Note must be at least 10 characters"
+  }
+  notes.value.push({
+    id: Math.floor(Math.random() * 1000000),
+    text: newNote.value,
+    date: new Date(),
+    backgroundColor: getRandomColor()
+  });
+  showModal.value = false;
+  newNote.value = "";
+  erroMessage.value = ""
+}
 </script>
 
 <template>
-  <main> 
-    <div class="container" >
+  <main>
+    <div class="container">
 
-      <div v-if="showModal" class="overlay" >
+      <div v-if="showModal" class="overlay">
         <div class="modal">
-          <textarea name="" id="note" cols="30" rows="10"></textarea>
-          <button>Add note</button>
+          <textarea v-model.trim ="newNote" name="" id="note" cols="30" rows="10"></textarea>
+          <p v-if="erroMessage"> {{ erroMessage }} </p>
+          <button @click="addNote">Add note</button>
           <button class="close" @click="showModal = false">Close</button>
 
         </div>
@@ -18,19 +40,18 @@ const showModal = ref(false);
       </div>
       <header>
         <h1>Notes</h1>
-        <button @click="showModal = true ">+</button>
+        <button @click="showModal = true">+</button>
       </header>
       <div class="cards-container">
-        <div class="card">
-          <p class="main-text">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            Numquam, velit itaque doloribus odio rerum, autem earum ad pariatur, hic quisquam ut inventore ex non nam
-            culpa voluptatum
-            in dolores quidem?
-          </p>
-          <p class="date">04/27/2022</p>
+        <div 
+          class="card"
+          v-for="note in notes"
+          :key="note.id"
+          :style="{backgroundColor: note.backgroundColor}"
+          >
+          <p class="main-text">{{ note.text }}</p>
+          <p class="date">{{ note.date.toLocaleString("en-US") }}</p>
         </div>
-
       </div>
     </div>
   </main>
@@ -97,8 +118,10 @@ header button {
   font-size: 12.5px;
   font-weight: bold;
 }
+
 .overlay {
   position: absolute;
+  margin-top: 200px;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.77);
@@ -107,6 +130,7 @@ header button {
   align-items: center;
   justify-content: center;
 }
+
 .modal {
   width: 750px;
   background-color: white;
@@ -132,4 +156,9 @@ header button {
   background-color: rgb(193, 15, 15);
   margin-top: 7px;
 }
+
+.modal p {
+  color: rgb(193, 15, 15);
+}
+
 </style>
