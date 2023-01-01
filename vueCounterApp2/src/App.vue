@@ -29,8 +29,6 @@ export default ({
   },
 
   methods: {
-
-
     addToCount() {
       console.log('+++++');
       this.count = this.count + 1
