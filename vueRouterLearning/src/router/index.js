@@ -3,6 +3,7 @@ import AboutView from "../views/AboutView.vue"
 import HomeView from "../views/HomeView.vue"
 import CarView from "../views/CarView.vue"
 import ContactView from "../views/ContactView.vue"
+import NotFoundView from "../views/404View.vue"
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes:[
@@ -17,6 +18,10 @@ const router = createRouter({
         component: AboutView
     },
     {
+        path: "/home",
+        redirect : "/",
+    },
+    {
         path: "/cars/:id",
         name : "car",
         component: CarView,
@@ -26,6 +31,11 @@ const router = createRouter({
                 component: ContactView,
             }
         ]               
+    },
+    {
+        path: "/:catchall(.*)*",
+        name:"Not Found",
+        component: NotFoundView
     } 
 ]
 })

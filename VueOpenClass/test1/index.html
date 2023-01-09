@@ -8,8 +8,10 @@
 </head>
 <body>
     <div id="app">
-       <p>{{ message }}</p> 
-       <p>{{ tab[0] }}</p> 
+        <div >
+          <p v-for="item in shoppingCart">{{ item.name}} : {{ item.cost}}</p> 
+          <p>Total : {{totaprice}}</p> 
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
@@ -19,8 +21,21 @@
         const app = new Vue({
             el: "#app",
             data : {
-                message : "Salut tout le monde",
-                tab : ['livre', 'cahier', 'siege']
+                shoppingCart : [
+               { name : "Mangue", cost : 25},
+               { name : "Orange", cost : 245},
+               { name : "Banane", cost : 125},
+               { name : "Citron", cost : 651}
+                ]
+            },
+            computed : {
+                totaprice () {
+                    let total = 0
+                    this.shoppingCart.forEach(item => {
+                        total+= item.cost
+                    })
+                    return total
+                }
             }
         })
         
