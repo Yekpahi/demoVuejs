@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input v-model="firstname" type="text">
+        <input v-model="name" type="text">
+        <p>{{ fullName}} // {{ getfullname(25) }}</p> 
+        <br>
+        <p>From Computed : {{ getRandom2 }}</p>
+        <p>From Computed : {{ getRandom2 }}</p>
+        <br>
+        <p>From Methods : {{ getRandom1() }}</p>
+        <p>From Methods : {{ getRandom1() }}</p>
+    </div>
+
+    <script type="module">
+      import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+    
+      createApp({
+        data() {
+          return {
+            firstname:"Prince",
+            name:"Yekpahi"
+          }
+        },
+        methods: {
+            getfullname(age) {
+                return `Mon nom est ${this.name} ${this.firstname} et j'ai ${age} ans`
+            },
+            getRandom1() {
+                return Math.random();
+            }
+        },
+        computed :{
+            fullName() {
+                return this.firstname + " " + this.name
+            },
+            getRandom2() {
+                return Math.random();
+            }
+        }
+      }).mount('#app')
+    </script>
+</body>
+</html>
